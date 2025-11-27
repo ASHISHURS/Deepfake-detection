@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deepfake Video Detector</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Your External CSS -->
+  <link rel="stylesheet" href="/static/style.css">
+
+</head>
+<body>
+
+<div class="container">
+  <div class="card text-center custom-card">
+    <h2 class="mb-4 title">Deepfake Video Detector</h2>
+
+    <input id="file" class="form-control mb-3" type="file" accept="video/*"/>
+
+    <button id="send" class="btn btn-primary mb-3 analyze-btn">Analyze Video</button>
+
+    <div id="status" class="mb-3 status-text"></div>
+
+    <div id="results" style="display:none;">
+      <h5>Verdict:</h5>
+      <p id="verdict" class="fw-bold fs-4 verdict-text"></p>
+
+      <h5>Confidence:</h5>
+      <div class="progress mb-3">
+        <div id="progress-real" class="progress-bar bg-success" role="progressbar"></div>
+        <div id="progress-fake" class="progress-bar bg-danger" role="progressbar"></div>
+      </div>
+
+      <h5>Per-frame scores (first 20 frames):</h5>
+      <pre id="frame-scores" class="frame-box"></pre>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('send').onclick = async () => {
+    const fileEl = document.getElementById('file');
+    if (!fileEl.files.length) { alert("Please pick a video file."); return; }
+
+    const file = fileEl.files[0];
+    const fd = new FormData();
+    fd.append('file', file);
+
+    document.getElementById('status').innerText = 'Uploading and analyzing...';
+    document.getElementById('results').style.display = 'none';
+
+    try {
+        const resp = await fetch('/analyze', { method: 'POST', body: fd });
+        if (!resp.ok) throw new Error(`Server error: ${resp.status}`);
+
+        const data = await resp.json();
+
+        // Show results
+        document.getElementById('verdict').innerText = data.verdict.toUpperCase();
+        document.getElementById('progress-real').style.width = (data.avg_prob_real*100) + '%';
+        document.getElementById('progress-real').innerText = 'REAL ' + (data.avg_prob_real*100).toFixed(1) + '%';
+        document.getElementById('progress-fake').style.width = (data.avg_prob_fake*100) + '%';
+        document.getElementById('progress-fake').innerText = 'FAKE ' + (data.avg_prob_fake*100).toFixed(1) + '%';
+
+        let frameText = "";
+        data.per_frame.forEach(f => {
+            frameText += `Frame ${f.idx}: Real ${f.prob_real}, Fake ${f.prob_fake}\n`;
+        });
+        document.getElementById('frame-scores').innerText = frameText;
+
+        document.getElementById('status').innerText = 'Analysis complete';
+        document.getElementById('results').style.display = 'block';
+
+    } catch (err) {
+        console.error(err);
+        document.getElementById('status').innerText = 'Error: ' + err;
+    }
+};
+</script>
+
+</body>
+</html>

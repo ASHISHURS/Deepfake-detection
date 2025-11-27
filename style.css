@@ -1,0 +1,125 @@
+/* Smooth Background Gradient */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #5f2c82, #49a09d);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: 650px;
+    padding: 20px;
+}
+
+/* Glass Card */
+.custom-card {
+    padding: 35px 30px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.13);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0px 12px 25px rgba(0,0,0,0.25);
+    color: #ffffff;
+    transition: 0.4s ease;
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 30px rgba(0,0,0,0.35);
+}
+
+/* Title */
+.title {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+}
+
+/* File input */
+#file {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 12px;
+    padding: 10px;
+}
+
+/* Analyze Button */
+.analyze-btn {
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: 600;
+    width: 100%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    color: white;
+    transition: 0.3s;
+}
+
+.analyze-btn:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    transform: scale(1.02);
+}
+
+/* Status */
+.status-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffd;
+    margin-top: 15px;
+}
+
+/* Verdict Text */
+.verdict-text {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+/* Progress Bars */
+.progress {
+    height: 28px;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.progress-bar {
+    font-size: 14px;
+    font-weight: 600;
+    padding-top: 4px;
+    transition: width 0.4s ease;
+}
+
+/* Frame score box */
+.frame-box {
+    background: rgba(49, 62, 138, 0.2);
+    padding: 15px;
+    border-radius: 14px;
+    max-height: 280px;
+    overflow-y: auto;
+    color: #f8f5f5;
+    font-size: 14px;
+    letter-spacing: 0.4px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Smooth scrollbar */
+.frame-box::-webkit-scrollbar {
+    width: 7px;
+}
+.frame-box::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.35);
+    border-radius: 8px;
+}
+.frame-box::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.5);
+}
